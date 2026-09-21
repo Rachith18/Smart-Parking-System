@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Smart Parking System</title>
+    <a href="/history" class="history-btn">📋 Parking History</a>
+    <a href="/search" class="history-btn">🔍 Search Vehicle</a>
+    <a href="/dashboard">📊 Admin Dashboard</a>
+
+    <style>
+        .history-btn {
+    display: block;
+    width: 180px;
+    margin: 15px auto 25px;
+    padding: 12px;
+    text-align: center;
+    background: #333;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+}
+
+.history-btn:hover {
+    background: #555;
+}
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            margin-top: 10px;
+            font-size: 38px;
+        }
+
+        h2 {
+            font-size: 28px;
+        }
+
+        .slots {
+            display: grid;
+            grid-template-columns: repeat(5, 210px);
+            gap: 25px;
+            justify-content: center;
+            margin-top: 40px;
+        }
+
+        .slot {
+            padding: 25px;
+            border-radius: 15px;
+            color: white;
+            min-height: 120px;
+        }
+
+        .available {
+            background-color: #4caf50;
+        }
+
+        .occupied {
+            background-color: #e53935;
+        }
+
+        .slot-name {
+            font-size: 25px;
+            margin-bottom: 20px;
+        }
+
+        button {
+            border: none;
+            padding: 10px 25px;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .reserve-button {
+            background-color: white;
+            color: green;
+        }
+
+        .release-button {
+            background-color: white;
+            color: red;
+        }
+
+        input {
+            padding: 10px;
+            width: 150px;
+            border-radius: 5px;
+            border: none;
+            margin-bottom: 10px;
+        }
+
+        .vehicle {
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>🚗 Smart Parking System</h1>
+
+    <h2>
+        Available Parking Slots: {{ available_slots }}
+        <a href="/history"
+   style="
+   display:inline-block;
+   padding:12px 25px;
+   background:#2196f3;
+   color:white;
+   text-decoration:none;
+   border-radius:5px;
+   margin-top:10px;
+   ">
+    📋 Parking History
+</a>
+    </h2>
+
+    <div class="slots">
+
+        {% for slot in slots %}
+
+        <div class="slot
+            {% if slot[2] == 'AVAILABLE' %}
+                available
+            {% else %}
+                occupied
+            {% endif %}
+        ">
+
+            <div class="slot-name">
+                🅿️ {{ slot[1] }}
+            </div>
+
+            {% if slot[2] == 'AVAILABLE' %}
+
+                <form action="{{ url_for('reserve', slot_id=slot[0]) }}"
+                      method="POST">
+
+                    <input
+                        type="text"
+                        name="vehicle_number"
+                        placeholder="Vehicle Number"
+                        required
+                    >
+
+                    <br>
+
+                    <button class="reserve-button" type="submit">
+                        Reserve
+                    </button>
+
+                </form>
+
+            {% else %}
+
+                <div class="vehicle">
+                    🚗 {{ slot[3] }}
+                </div>
+
+                <form action="{{ url_for('release', slot_id=slot[0]) }}"
+                      method="POST">
+
+                    <button class="release-button" type="submit">
+                        Release
+                    </button>
+
+                </form>
+
+            {% endif %}
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+    <a href="/history" class="history-btn">📋 Parking History</a>
+</body>
+
+</html>
