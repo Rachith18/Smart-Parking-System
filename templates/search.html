@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Search Vehicle</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+            padding: 30px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        .search-box {
+            text-align: center;
+            margin: 30px;
+        }
+
+        input {
+            padding: 12px;
+            width: 300px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            padding: 12px 20px;
+            background: green;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        table {
+            width: 90%;
+            margin: 30px auto;
+            border-collapse: collapse;
+            background: white;
+        }
+
+        th {
+            background: #333;
+            color: white;
+            padding: 12px;
+        }
+
+        td {
+            padding: 12px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .back {
+            display: block;
+            width: 180px;
+            margin: 25px auto;
+            padding: 12px;
+            text-align: center;
+            background: #333;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+
+<body>
+
+<h1>🔍 Search Vehicle</h1>
+
+<div class="search-box">
+
+    <form method="POST">
+
+        <input
+            type="text"
+            name="vehicle_number"
+            placeholder="Enter Vehicle Number"
+            required
+        >
+
+        <button type="submit">Search</button>
+
+    </form>
+
+</div>
+
+{% if records %}
+
+<table>
+
+    <tr>
+        <th>History ID</th>
+        <th>Slot Number</th>
+        <th>Vehicle Number</th>
+        <th>Entry Time</th>
+        <th>Exit Time</th>
+        <th>Status</th>
+    </tr>
+
+    {% for record in records %}
+
+    <tr>
+        <td>{{ record[0] }}</td>
+        <td>{{ record[1] }}</td>
+        <td>{{ record[2] }}</td>
+        <td>{{ record[3] }}</td>
+        <td>{{ record[4] }}</td>
+        <td>{{ record[5] }}</td>
+    </tr>
+
+    {% endfor %}
+
+</table>
+
+{% elif request.method == "POST" %}
+
+<h3 style="text-align:center;">
+    No parking history found for this vehicle.
+</h3>
+
+{% endif %}
+
+<a href="/" class="back">⬅ Back to Parking</a>
+
+</body>
+</html>
