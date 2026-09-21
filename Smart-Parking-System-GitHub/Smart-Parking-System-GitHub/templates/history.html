@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Parking History</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+            margin: 0;
+            padding: 40px;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 40px;
+            margin-bottom: 35px;
+        }
+
+        table {
+            width: 95%;
+            margin: auto;
+            border-collapse: collapse;
+            background: white;
+        }
+
+        th {
+            background: #333;
+            color: white;
+            padding: 15px;
+            font-size: 18px;
+        }
+
+        td {
+            padding: 14px;
+            text-align: center;
+            border: 1px solid #ddd;
+            font-size: 16px;
+        }
+
+        tr:nth-child(even) {
+            background: #f2f2f2;
+        }
+
+        .parked {
+            color: green;
+            font-weight: bold;
+        }
+
+        .completed {
+            color: blue;
+            font-weight: bold;
+        }
+
+        .back {
+            display: block;
+            width: 180px;
+            margin: 25px auto;
+            padding: 15px;
+            background: #2196f3;
+            color: white;
+            text-decoration: none;
+            text-align: center;
+            border-radius: 5px;
+            font-size: 18px;
+        }
+
+        .back:hover {
+            background: #1976d2;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>📋 Parking History</h1>
+
+    <table>
+
+        <tr>
+            <th>ID</th>
+            <th>Slot</th>
+            <th>Vehicle Number</th>
+            <th>Entry Time</th>
+            <th>Exit Time</th>
+            <th>Status</th>
+        </tr>
+
+        {% if records %}
+
+            {% for record in records %}
+
+            <tr>
+                <td>{{ record[0] }}</td>
+                <td>{{ record[1] }}</td>
+                <td>{{ record[2] }}</td>
+
+                <td>
+                    {{ record[3] }}
+                </td>
+
+                <td>
+                    {% if record[4] %}
+                        {{ record[4] }}
+                    {% else %}
+                        -
+                    {% endif %}
+                </td>
+
+                <td>
+                    {% if record[5] == "PARKED" %}
+                        <span class="parked">
+                            {{ record[5] }}
+                        </span>
+                    {% else %}
+                        <span class="completed">
+                            {{ record[5] }}
+                        </span>
+                    {% endif %}
+                </td>
+            </tr>
+
+            {% endfor %}
+
+        {% else %}
+
+            <tr>
+                <td colspan="6">
+                    No parking history available
+                </td>
+            </tr>
+
+        {% endif %}
+
+    </table>
+
+    <!-- Back to Dashboard -->
+    <a href="{{ url_for('dashboard') }}" class="back">
+        ← Back to Parking
+    </a>
+
+</body>
+</html>
